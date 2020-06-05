@@ -32,20 +32,14 @@ Last release on 2020.06.05
 * Building a cache which recieve data from UART Serial
 
 * Support functions of SerialRead, SerialAvailable, SerialFlush, SerialCopy
-    > int8 SerialRead()         Get one character from the head of cache queue.
-    > int8 SerialAvailable()    Check whether the cache queue is empty.
-    > void SerialFlush()        Empty the cache queue.
-    > void SerialCopy(int8 *)   Copy the cache queue.
+    int8 SerialRead()         Get one character from the head of cache queue.
+    int8 SerialAvailable()    Check whether the cache queue is empty.
+    void SerialFlush()        Empty the cache queue.
+    void SerialCopy(int8 *)   Copy the cache queue.
 
 *************************************
 
 ## Future Plans
 
 1. INT0/INT1 interrupt initiation
-    > Version 1.0.2
-
-2. SerialRead functions (Demo)
-    > Version 1.0.3
-
-3. SerialRead functions (Complete)
-    > Version 1.1.0
+    > Version 1.1.1
