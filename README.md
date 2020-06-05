@@ -2,9 +2,9 @@
 
 Copyright 2020 - ? @YangHui
 
-Last release on 2020.05.16
+Last release on 2020.06.05
 
-* Version 1.0.1
+* Version 1.1.0
 
 *************************************
 
@@ -24,6 +24,18 @@ Last release on 2020.05.16
 * Counter: Timer0
 
 * SerialCounter: Timer1
+
+*************************************
+
+## Update Version 1.1.0
+
+* Building a cache which recieve data from UART Serial
+
+* Support functions of SerialRead, SerialAvailable, SerialFlush, SerialCopy
+    > int8 SerialRead()         Get one character from the head of cache queue.
+    > int8 SerialAvailable()    Check whether the cache queue is empty.
+    > void SerialFlush()        Empty the cache queue.
+    > void SerialCopy(int8 *)   Copy the cache queue.
 
 *************************************
 

@@ -4,11 +4,14 @@
 
  * <Copyright 2020-? @YangHui>
  * This is a C51Package, including serial initiation, timer initiation and counter initiation. Delay functions and serial functions are also included.
- * Last edition on 2020.05.15
- * Version 1.0.0
 
-**************************************/ 
+ * Version 1.1.0
+
+**************************************/     
 #include "C51Package.h"
+
+static SerialCache[MAXLEN];
+static int8 Head = 0,Rear = MAXLEN - 1,Count = 0;
 
 void SerialSet(int16 Rate) //Using Timer 1
 {
@@ -104,9 +107,40 @@ void SerialBegin()
 {
     TR1 = 1;
 }
+int8 SerialAvailable()
+{
+    return Count;
+}
+int8 SerialRead()
+{
+    int8 c = SerialCache[Head ++];
+    Head %= MAXLEN;
+    return c;
+}
+void SerialFlush()
+{
+    Head = Count = 0;
+    Rear = MAXLEN - 1;
+}
+void SerialCopy(int8 *str)
+{
+    int8 i,j = 0;
+    if (Head <= Rear)
+        for (i = Head;i <= Rear;i ++)
+            str[j] = SerialCache[i];
+    else if (Head > Rear)
+    {
+        for (i = Head;i <= 64;i ++)
+            str[j] = SerialCache[i];
+        for (i = 0;i <= Rear;i ++)
+            str[j] = SerialCache[i];
+    }
+    str[j] = '\0';
+}
 void main()
 {
     SerialSet(9600);
+    SerialBegin();
     while(1)
     {
         SendStringLn("Hello world");
