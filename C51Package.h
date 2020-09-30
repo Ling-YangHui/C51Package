@@ -5,7 +5,7 @@
  * <Copyright 2020-? @YangHui>
  * This is a C51Package, including serial initiation, timer initiation and counter initiation. Delay functions and serial functions are also included.
 
- * Version 1.1.0
+ * Version 1.2.0
 
 **************************************/ 
 
@@ -34,4 +34,8 @@
     void Delay50us();
     void SerialBegin();
     void SerialStop();
+    int8 SerialAvailable();
+    int8 SerialRead();
+    void SerialFlush();
+    void SerialCopy(int8 *str);
 #endif

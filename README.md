@@ -11,8 +11,9 @@ Last release on 2020.06.05
 ## Brief Introduction
 
 * This Package includes C51Package.h and C51Package.c, which is designed for CPU with 8051 core.
-    >including STC89/90, STC8.
-
+    
+>including STC89/90, STC8.
+    
 * The functions of SerialInitiation, CounterInitiation, TimerInitiation, SerialSend, Delay are included in this package.
 
 *************************************
@@ -44,4 +45,5 @@ Last release on 2020.06.05
 ## Future Plans
 
 1. INT0/INT1 interrupt initiation
+    
     > Version 1.1.1

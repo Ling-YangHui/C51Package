@@ -5,13 +5,17 @@
  * <Copyright 2020-? @YangHui>
  * This is a C51Package, including serial initiation, timer initiation and counter initiation. Delay functions and serial functions are also included.
 
- * Version 1.1.0
+ * Version 1.2.0
 
 **************************************/     
 #include "C51Package.h"
 
-static SerialCache[MAXLEN];
-static int8 Head = 0,Rear = MAXLEN - 1,Count = 0;
+static int8 SerialCache[MAXLEN];
+static int8 Head = 0,Rear = 0,Count = 0;
+/****
+ * Head -> first char
+ * Rear -> last char + 1
+ ****/
 
 void SerialSet(int16 Rate) //Using Timer 1
 {
@@ -109,34 +113,44 @@ void SerialBegin()
 }
 int8 SerialAvailable()
 {
-    return Count;
+    return MAXLEN - Count;
 }
 int8 SerialRead()
 {
-    int8 c = SerialCache[Head ++];
-    Head %= MAXLEN;
-    return c;
+    if (Count)
+    {
+        Count --;
+        int8 c = SerialCache[Head ++];
+        if (Head >= MAXLEN)
+            Head = 0;
+        return c;
+    }else
+        return '\0';
 }
 void SerialFlush()
 {
-    Head = Count = 0;
-    Rear = MAXLEN - 1;
+    Head = Rear = Count = 0;
 }
 void SerialCopy(int8 *str)
 {
-    int8 i,j = 0;
-    if (Head <= Rear)
-        for (i = Head;i <= Rear;i ++)
-            str[j] = SerialCache[i];
-    else if (Head > Rear)
-    {
-        for (i = Head;i <= 64;i ++)
-            str[j] = SerialCache[i];
-        for (i = 0;i <= Rear;i ++)
-            str[j] = SerialCache[i];
-    }
-    str[j] = '\0';
+    int8 temp,j = 0;
+    do{
+        temp = SerialRead();
+        str[j ++] = temp;
+    }while(temp != '\0');
 }
+
+void SerialReceive() interrupt 4
+{
+    if(Count >= MAXLEN)
+        return;
+    SerialCache[Rear ++] = SBUF;
+    if(Rear >= MAXLEN)
+        Rear = 0;
+    Count ++;
+    RI = 0;
+}
+
 void main()
 {
     SerialSet(9600);
